@@ -39,5 +39,16 @@ This is the React frontend for my Final Year Project. It handles the user interf
 ## API Configuration
 The app is set to talk to http://localhost:3000/api/v1.
 
+---
+
+## Implemented Features
+
+**Authentication**:
+Login Page with Tailwind UI.
+Integration with Backend Login API.
+JWT Token storage in LocalStorage.
+Auto-login on page refresh.
+Error handling (Wrong password/email).
+
 👨‍💻 Developed By
 [Muhammad_Fahad_Amin]
