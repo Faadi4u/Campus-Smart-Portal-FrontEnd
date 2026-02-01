@@ -36,21 +36,6 @@ This is the React frontend for my Final Year Project. It handles the user interf
 
 ---
 
-## Folder Organization
-
-Here is where I keep everything:
-
-src/
-├── api/           # API config (base URL and token logic)
-├── components/    # Buttons, Inputs, and other reusable UI parts
-├── context/       # AuthContext (Handles Login/Logout state)
-├── layouts/       # The main design wrappers (Navbar, Sidebar)
-├── pages/         # The actual screens (Login, Dashboard, etc.)
-├── App.jsx        # Main app structure
-└── main.jsx       # App entry point
-
----
-
 ## API Configuration
 The app is set to talk to http://localhost:3000/api/v1.
 
