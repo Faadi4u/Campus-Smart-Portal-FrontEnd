@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import api from "../api/axios";
+import api from "../Api/axios.js";
 import toast from "react-hot-toast";
 
 const AuthContext = createContext(null);
@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
       if (token) {
         try {
           // Adjust this URL to match your backend route exactly
-          const { data } = await api.get("/auth/me");
+          const { data } = await api.get("/me");
           
           // Fix: Handle both Flat { user: ... } and Nested { data: { user: ... } }
           const userData = data.user || data.data?.user;
