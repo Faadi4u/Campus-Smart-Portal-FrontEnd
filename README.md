@@ -50,5 +50,23 @@ JWT Token storage in LocalStorage.
 Auto-login on page refresh.
 Error handling (Wrong password/email).
 
+**Layout & Navigation:**
+  - Responsive **Sidebar & Navbar**.
+  - **Role-based menu items** (Admin sees "Rooms", Students see "My Bookings").
+  - **Protected Routes** (Prevents access without login).
+
+**Dashboard:**
+  - **Dynamic Stats:** Fetches live data from backend APIs.
+  - **Admin View:** System-wide stats, Pending requests, Most Popular Rooms.
+  - **Student View:** Personal booking history stats.
+  - Loading states & Error handling.
+
+**Bookings Module:**
+  - **Bookings List:** Table view of bookings with date, time, and purpose.
+  - **Status Badges:** Visual indicators for Pending, Approved, Rejected.
+  - **Admin Actions:** Approve/Reject buttons (UI logic ready).
+  - **Student Actions:** Cancel booking button.
+  - **Data Population:** Correctly displays Room names from relation data.
+
 👨‍💻 Developed By
 [Muhammad_Fahad_Amin]
