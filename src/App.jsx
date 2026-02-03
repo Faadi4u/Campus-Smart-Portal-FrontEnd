@@ -4,6 +4,8 @@ import Dashboard from "./pages/Dashboard.jsx";
 import MainLayout from "./layout/MainLayout.jsx";
 import { useAuth } from "./context/AuthContext.jsx";
 import Bookings from "./pages/Bookings"; 
+import Rooms from "./pages/Rooms"; 
+import NewBooking from "./pages/NewBooking";
 
 // Simple route guard
 const ProtectedRoute = ({ children }) => {
@@ -30,6 +32,8 @@ function App() {
         <Route path="dashboard" element={<Dashboard />} />
         {/* We will add Bookings and Rooms here later */}
         <Route path="bookings" element={<Bookings />} />
+        <Route path="rooms" element={<Rooms />} />
+        <Route path="book-room" element={<NewBooking />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/login" replace />} />

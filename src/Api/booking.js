@@ -39,3 +39,9 @@ export const cancelBooking = async (id) => {
   const { data } = await api.patch(`/bookings/${id}/cancel`);
   return data.message;
 };
+
+// 7. Create New Booking
+export const createBooking = async (bookingData) => {
+  const { data } = await api.post("/booking", bookingData);
+  return data.message;
+};
