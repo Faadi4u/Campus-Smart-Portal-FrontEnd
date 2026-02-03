@@ -45,13 +45,14 @@ The app is set to talk to http://localhost:3000/api/v1.
 
 **Authentication**:
 Login Page with Tailwind UI.
+Registration Page with Tailwind UI.
 Integration with Backend Login API.
 JWT Token storage in LocalStorage.
 Auto-login on page refresh.
 Error handling (Wrong password/email).
 
 **Layout & Navigation:**
-  - Responsive **Sidebar & Navbar**.
+  - **Sidebar & Navbar**: Responsive.
   - **Role-based menu items** (Admin sees "Rooms", Students see "My Bookings").
   - **Protected Routes** (Prevents access without login).
 
@@ -60,6 +61,10 @@ Error handling (Wrong password/email).
   - **Admin View:** System-wide stats, Pending requests, Most Popular Rooms.
   - **Student View:** Personal booking history stats.
   - Loading states & Error handling.
+**Rooms Management (Admin):**
+  - **Room Catalog:** Grid view of all rooms with capacity and feature tags.
+  - **Add Room:** Modal form to create new rooms dynamically.
+  - **Live Updates:** List refreshes automatically after creation.  
 
 **Bookings Module:**
   - **Bookings List:** Table view of bookings with date, time, and purpose.
@@ -67,6 +72,7 @@ Error handling (Wrong password/email).
   - **Admin Actions:** Approve/Reject buttons (UI logic ready).
   - **Student Actions:** Cancel booking button.
   - **Data Population:** Correctly displays Room names from relation data.
+  - **New Booking Form:** User-friendly UI to select rooms, date, and time.
 
 👨‍💻 Developed By
 [Muhammad_Fahad_Amin]

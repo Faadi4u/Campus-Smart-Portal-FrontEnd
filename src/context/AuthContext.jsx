@@ -35,11 +35,9 @@ export const AuthProvider = ({ children }) => {
   // 2. Login Function
   const login = async (email, password) => {
     try {
-      // FIX 1: Ensure route is /auth/login (based on your backend setup)
       const { data } = await api.post("/login", { email, password });
       
-      // FIX 2: Your backend sends flat JSON, so we use 'data.accessToken' directly
-      // (NOT data.data.accessToken)
+      
       const accessToken = data.accessToken;
       const userData = data.user;
 
@@ -68,8 +66,23 @@ export const AuthProvider = ({ children }) => {
     toast.success("Logged out successfully");
   };
 
+    // 4. Register Function
+  const registerUser = async (userData) => {
+    try {
+      // Adjust URL to match your backend (/auth/register or /users/register)
+      await api.post("/register", userData);
+      toast.success("Account created! Please login.");
+      return true;
+    } catch (error) {
+      console.error("Register Error:", error);
+      const message = error.response?.data?.message || "Registration failed";
+      toast.error(message);
+      return false;
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, login, logout, registerUser , loading }}>
       {children}
     </AuthContext.Provider>
   );

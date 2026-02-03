@@ -6,6 +6,7 @@ import { useAuth } from "./context/AuthContext.jsx";
 import Bookings from "./pages/Bookings"; 
 import Rooms from "./pages/Rooms"; 
 import NewBooking from "./pages/NewBooking";
+import Register from "./pages/Register";
 
 // Simple route guard
 const ProtectedRoute = ({ children }) => {
@@ -21,6 +22,7 @@ function App() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
 
       {/* Protected Routes (Wrapped in MainLayout) */}
       <Route path="/" element={
