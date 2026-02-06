@@ -1,1 +1,32 @@
 @import "tailwindcss";
+
+/* --- Custom Dark Scrollbar --- */
+
+/* 1. For Chrome, Safari, and Edge */
+::-webkit-scrollbar {
+  width: 10px; /* Width of the vertical scrollbar */
+  height: 10px; /* Height of the horizontal scrollbar */
+}
+
+/* The background of the scrollbar area */
+::-webkit-scrollbar-track {
+  background: #09090b; /* zinc-950 (Black/Dark) */
+}
+
+/* The draggable handle */
+::-webkit-scrollbar-thumb {
+  background: #27272a; /* zinc-800 */
+  border-radius: 10px;
+  border: 2px solid #09090b; /* Creates padding around the handle */
+}
+
+/* The handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #3f3f46; /* zinc-700 */
+}
+
+/* 2. For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #27272a #09090b; /* thumb color | track color */
+}
