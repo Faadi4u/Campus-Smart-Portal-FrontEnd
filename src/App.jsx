@@ -7,6 +7,11 @@ import Bookings from "./pages/Bookings";
 import Rooms from "./pages/Rooms"; 
 import NewBooking from "./pages/NewBooking";
 import Register from "./pages/Register";
+import Settings from "./pages/Settings";
+import Profile from "./pages/Profile.jsx";
+import UpdateProfile from "./pages/UpdateProfile";
+import ChangePassword from "./pages/ChangePassword";
+import DeleteAccount from "./pages/DeleteAccount";
 
 // Simple route guard
 const ProtectedRoute = ({ children }) => {
@@ -23,6 +28,11 @@ function App() {
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/settings" element={<Settings />} />
+      <Route path="/profile" element={<Profile />} />
+      <Route path="settings/profile" element={<UpdateProfile />} />
+      <Route path="settings/password" element={<ChangePassword />} />
+      <Route path="settings/delete" element={<DeleteAccount />} />
 
       {/* Protected Routes (Wrapped in MainLayout) */}
       <Route path="/" element={

@@ -131,12 +131,6 @@ const Login = () => {
                 Password
               </label>
             </div>
-              <a
-                href="#"
-                className="text-xs text-indigo-400 hover:text-indigo-300 transition-colors"
-              >
-                Forgot?
-              </a>
             <div className="relative group">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                 <Lock className="h-5 w-5 text-zinc-500 group-focus-within:text-indigo-400 transition-colors duration-300" />
@@ -150,6 +144,12 @@ const Login = () => {
                 placeholder="••••••••"
               />
             </div>
+            <a
+                href="#"
+                className="text-xs text-indigo-400 hover:text-indigo-300 transition-colors"
+              >
+                Forgot Password?
+              </a>
           </div>
 
           {/* Submit Button */}
