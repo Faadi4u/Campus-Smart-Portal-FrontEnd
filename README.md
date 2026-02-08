@@ -50,6 +50,7 @@ Integration with Backend Login API.
 JWT Token storage in LocalStorage.
 Auto-login on page refresh.
 Error handling (Wrong password/email).
+Update Profile , Password , Name and Email and Delete Account
 
 **Layout & Navigation:**
   - **Sidebar & Navbar**: Responsive.
@@ -73,6 +74,12 @@ Error handling (Wrong password/email).
   - **Student Actions:** Cancel booking button.
   - **Data Population:** Correctly displays Room names from relation data.
   - **New Booking Form:** User-friendly UI to select rooms, date, and time.
+
+**Profile Update:**
+  - **Preview Profile:** View Your Profile Data.
+  - **Change Name & Email:** You can change your username and email.
+  - **Change Password:** You can change your password .
+  - **Delete Account:** Delete your existing account.
 
 👨‍💻 Developed By
 [Muhammad_Fahad_Amin]
