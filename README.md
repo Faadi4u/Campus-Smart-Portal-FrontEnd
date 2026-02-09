@@ -80,6 +80,10 @@ Update Profile , Password , Name and Email and Delete Account
   - **Change Name & Email:** You can change your username and email.
   - **Change Password:** You can change your password .
   - **Delete Account:** Delete your existing account.
+  - **Preview Avatar:** See your existing Profile avatar.
+  - **Update Avatar:** Update your Avatar with new Avatar.
+  - **Remove Avatar:** Remove your existing Avatar.
+  - 
 
 👨‍💻 Developed By
 [Muhammad_Fahad_Amin]

@@ -17,3 +17,22 @@ export const deleteAccount = async () => {
   const { data } = await api.delete("/delete-account");
   return data;
 };
+
+// 4. Update Avatar
+export const updateAvatar = async (file) => {
+  const formData = new FormData();
+  formData.append("avatar", file);
+
+  const { data } = await api.patch("/update-avatar", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return data.message; // Returns the updated user object
+};
+
+// 5. Remove Avatar
+export const removeAvatar = async () => {
+  const { data } = await api.patch("/remove-avatar");
+  return data.message;
+};
