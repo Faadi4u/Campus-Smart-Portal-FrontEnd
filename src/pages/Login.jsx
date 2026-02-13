@@ -144,12 +144,11 @@ const Login = () => {
                 placeholder="••••••••"
               />
             </div>
-            <a
-                href="#"
-                className="text-xs text-indigo-400 hover:text-indigo-300 transition-colors"
-              >
-                Forgot Password?
-              </a>
+            <Link 
+              to="/forgot-password" 
+              className="text-xs font-medium text-indigo-400 hover:text-indigo-300 transition-colors">
+              Forgot password?
+            </Link>
           </div>
 
           {/* Submit Button */}

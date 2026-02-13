@@ -36,3 +36,14 @@ export const removeAvatar = async () => {
   const { data } = await api.patch("/remove-avatar");
   return data.message;
 };
+
+// 6. Password reset
+export const requestPasswordReset = async (email) => {
+  const { data } = await api.post("/forgot-password", { email });
+  return data;
+};
+
+export const resetPassword = async (token, password) => {
+  const { data } = await api.post(`/reset-password/${token}`, { password });
+  return data;
+};

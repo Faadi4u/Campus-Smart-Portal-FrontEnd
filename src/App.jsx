@@ -12,6 +12,8 @@ import Profile from "./pages/Profile.jsx";
 import UpdateProfile from "./pages/UpdateProfile";
 import ChangePassword from "./pages/ChangePassword";
 import DeleteAccount from "./pages/DeleteAccount";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 // Simple route guard
 const ProtectedRoute = ({ children }) => {
@@ -33,6 +35,8 @@ function App() {
       <Route path="settings/profile" element={<UpdateProfile />} />
       <Route path="settings/password" element={<ChangePassword />} />
       <Route path="settings/delete" element={<DeleteAccount />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password/:token" element={<ResetPassword />} />
 
       {/* Protected Routes (Wrapped in MainLayout) */}
       <Route path="/" element={
