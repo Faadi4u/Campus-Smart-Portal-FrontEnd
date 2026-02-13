@@ -85,5 +85,8 @@ Update Profile , Password , Name and Email and Delete Account
   - **Remove Avatar:** Remove your existing Avatar.
   - 
 
+**Reset Password:**
+  - **ForgotPassword:** You can forgot password by using an email link .
+  - **ResetPassword:**  You can reset password by getting link on email.
 👨‍💻 Developed By
 [Muhammad_Fahad_Amin]
