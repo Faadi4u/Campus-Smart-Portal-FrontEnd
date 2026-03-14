@@ -13,3 +13,15 @@ export const createRoom = async (roomData) => {
   // FIX: Your created room object is likely in 'message' too
   return data.message;
 };
+
+// 3. Update Room
+export const updateRoom = async (id, roomData) => {
+  const { data } = await api.patch(`/rooms/${id}`, roomData);
+  return data.message;
+};
+
+// 4. Delete Room 
+export const deleteRoom = async (id) => {
+  const { data } = await api.delete(`/rooms/${id}`);
+  return data.message;
+};
