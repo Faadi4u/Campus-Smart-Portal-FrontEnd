@@ -1,7 +1,7 @@
 import { useAuth } from "../context/AuthContext.jsx";
 import { useEffect, useState, useRef } from "react";
-import { getRooms, createRoom } from "../Api/room";
-import { Plus, MapPin, Users, Projector, Loader2, X, Filter } from "lucide-react";
+import { getRooms, createRoom, updateRoom, deleteRoom } from "../Api/room";
+import { Plus, MapPin, Users, Projector, Loader2, X, Filter, Edit, Trash2 } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
 import gsap from "gsap";
 import { useNavigate } from "react-router-dom";
@@ -14,6 +14,9 @@ const Rooms = () => {
   const [creating, setCreating] = useState(false);
   const navigate = useNavigate();
 
+  // State for Edit Mode
+  const [editingRoomId, setEditingRoomId] = useState(null);
+
   const [activeFilter, setActiveFilter] = useState("all");
 
   const [formData, setFormData] = useState({
@@ -22,6 +25,7 @@ const Rooms = () => {
     capacity: "",
     location: "",
     features: "",
+    hasProjector: false
   });
 
   const modalRef = useRef(null);
@@ -50,9 +54,10 @@ const Rooms = () => {
 
   const classroomRooms = rooms.filter((room) => room.type === "classroom");
   const labRooms = rooms.filter((room) => room.type === "lab");
-  const hallRooms = rooms.filter((room) => room.type === "hall");
+  const hallRooms = rooms.filter((room) => room.type === "hall" || room.type === "seminar_hall" || room.type === "library_hall");
   const meetingRooms = rooms.filter((room) => room.type === "meeting_room");
 
+  // Animation
   useEffect(() => {
     if (!loading && filteredRooms.length > 0) {
       gsap.fromTo(
@@ -63,37 +68,61 @@ const Rooms = () => {
     }
   }, [loading, activeFilter, filteredRooms]);
 
-  const handleCreate = async (e) => {
+  // Handle Create OR Update
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setCreating(true);
     try {
       const payload = {
         ...formData,
-        features: formData.features
-          .split(",")
-          .map((f) => f.trim().toLowerCase())
-          .filter((f) => f),
+        features: typeof formData.features === "string" 
+          ? formData.features.split(",").map((f) => f.trim().toLowerCase()).filter((f) => f) 
+          : formData.features,
       };
 
-      await createRoom(payload);
-      toast.success("Room created successfully!");
+      if (editingRoomId) {
+        await updateRoom(editingRoomId, payload);
+        toast.success("Room updated successfully!");
+      } else {
+        await createRoom(payload);
+        toast.success("Room created successfully!");
+      }
+
       closeModal();
-      setFormData({
-        name: "",
-        type: "classroom",
-        capacity: "",
-        location: "",
-        features: "",
-      });
+      resetForm();
       fetchRooms();
     } catch (error) {
-      toast.error(error?.message || "Failed to create room");
+      toast.error(error?.message || "Operation failed");
     } finally {
       setCreating(false);
     }
   };
 
-  const openModal = () => {
+  const handleDelete = async (id) => {
+    if (!confirm("Are you sure you want to delete this room?")) return;
+    try {
+      await deleteRoom(id);
+      toast.success("Room deleted");
+      fetchRooms();
+    } catch {
+      toast.error("Failed to delete room");
+    }
+  };
+
+  const openModal = (roomToEdit = null) => {
+    if (roomToEdit) {
+      setEditingRoomId(roomToEdit._id);
+      setFormData({
+        name: roomToEdit.name,
+        type: roomToEdit.type,
+        capacity: roomToEdit.capacity,
+        location: roomToEdit.location,
+        features: roomToEdit.features.join(", "),
+        hasProjector: roomToEdit.hasProjector
+      });
+    } else {
+      resetForm();
+    }
     setShowModal(true);
     setTimeout(() => {
       gsap.fromTo(modalRef.current, { opacity: 0 }, { opacity: 1, duration: 0.3 });
@@ -112,7 +141,22 @@ const Rooms = () => {
       opacity: 0,
       y: 20,
       duration: 0.3,
-      onComplete: () => setShowModal(false),
+      onComplete: () => {
+        setShowModal(false);
+        resetForm();
+      },
+    });
+  };
+
+  const resetForm = () => {
+    setEditingRoomId(null);
+    setFormData({
+      name: "",
+      type: "classroom",
+      capacity: "",
+      location: "",
+      features: "",
+      hasProjector: false
     });
   };
 
@@ -171,6 +215,31 @@ const Rooms = () => {
         )}
       </div>
 
+      {/* Admin Actions: Edit / Delete */}
+      {user?.role === "admin" && (
+        <div className="mt-6 pt-4 border-t border-white/5 flex gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              openModal(room);
+            }}
+            className="flex-1 py-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors"
+          >
+            <Edit size={14} /> Edit
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleDelete(room._id);
+            }}
+            className="flex-1 py-2 bg-rose-500/10 hover:bg-rose-600 text-rose-400 hover:text-white rounded-lg text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors border border-rose-500/20 hover:border-rose-600"
+          >
+            <Trash2 size={14} /> Delete
+          </button>
+        </div>
+      )}
+
+      {/* Student Action: Book Now */}
       {user?.role !== "admin" && (
         <div className="mt-6 pt-4 border-t border-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <span className="text-xs font-bold text-indigo-400 uppercase tracking-widest flex items-center justify-center gap-2">
@@ -219,7 +288,7 @@ const Rooms = () => {
         </div>
         {user?.role === "admin" && (
           <button
-            onClick={openModal}
+            onClick={() => openModal(null)}
             className="bg-indigo-600 text-white px-5 py-2.5 rounded-xl hover:bg-indigo-500 hover:shadow-lg transition-all flex items-center gap-2 font-medium"
           >
             <Plus size={18} /> <span>Add Room</span>
@@ -269,7 +338,9 @@ const Rooms = () => {
             className="bg-zinc-900 border border-zinc-700 rounded-2xl max-w-md w-full p-0 shadow-2xl overflow-hidden opacity-0 scale-90"
           >
             <div className="p-6 border-b border-zinc-800 flex justify-between items-center">
-              <h2 className="text-xl font-bold text-white">Add New Room</h2>
+              <h2 className="text-xl font-bold text-white">
+                {editingRoomId ? "Edit Room" : "Add New Room"}
+              </h2>
               <button
                 onClick={closeModal}
                 className="text-zinc-400 hover:text-white hover:bg-zinc-800 p-1 rounded-lg transition-colors"
@@ -278,7 +349,7 @@ const Rooms = () => {
               </button>
             </div>
 
-            <form onSubmit={handleCreate} className="p-6 space-y-4">
+            <form onSubmit={handleSubmit} className="p-6 space-y-4">
               <div>
                 <label className="block text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-1.5">
                   Room Name
@@ -305,8 +376,10 @@ const Rooms = () => {
                   >
                     <option value="classroom" className="bg-zinc-900">Classroom</option>
                     <option value="lab" className="bg-zinc-900">Lab</option>
-                    <option value="hall" className="bg-zinc-900">Hall</option>
+                    <option value="lecture_room" className="bg-zinc-900">Lecture Room</option>
+                    <option value="seminar_hall" className="bg-zinc-900">Seminar Hall</option>
                     <option value="meeting_room" className="bg-zinc-900">Meeting Room</option>
+                    <option value="library_hall" className="bg-zinc-900">Library Hall</option>
                   </select>
                 </div>
                 <div>
@@ -340,15 +413,26 @@ const Rooms = () => {
 
               <div>
                 <label className="block text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-1.5">
-                  Features
+                  Features (comma separated)
                 </label>
                 <input
                   type="text"
-                  placeholder="e.g. Projector, AC"
+                  placeholder="e.g. AC, Whiteboard"
                   className="w-full bg-zinc-800/50 border border-zinc-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all"
                   value={formData.features}
                   onChange={(e) => setFormData({ ...formData, features: e.target.value })}
                 />
+              </div>
+
+              <div className="flex items-center gap-2 mt-2">
+                <input
+                  type="checkbox"
+                  id="hasProjector"
+                  checked={formData.hasProjector}
+                  onChange={(e) => setFormData({ ...formData, hasProjector: e.target.checked })}
+                  className="w-4 h-4 text-indigo-600 bg-zinc-800 border-zinc-700 rounded focus:ring-indigo-500"
+                />
+                <label htmlFor="hasProjector" className="text-sm text-zinc-300">Has Projector?</label>
               </div>
 
               <div className="flex justify-end gap-3 mt-8 pt-4 border-t border-zinc-800">
@@ -365,7 +449,7 @@ const Rooms = () => {
                   className="px-6 py-2.5 bg-indigo-600 text-white rounded-xl hover:bg-indigo-500 shadow-lg shadow-indigo-900/20 font-medium text-sm transition-all flex items-center gap-2"
                 >
                   {creating ? <Loader2 size={16} className="animate-spin" /> : null}
-                  {creating ? "Creating..." : "Create Room"}
+                  {creating ? (editingRoomId ? "Updating..." : "Creating...") : (editingRoomId ? "Update Room" : "Create Room")}
                 </button>
               </div>
             </form>
